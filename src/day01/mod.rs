@@ -1,38 +1,49 @@
 fn part1(inp: &str) -> usize {
-    inp.lines().map(|line| {
-        let first = line.chars().filter_map(|n| n.to_digit(10)).next().unwrap();
-        let last = line.chars().rev().filter_map(|n| n.to_digit(10)).next().unwrap();
-        (first * 10 + last) as usize
-    }).sum()
+    inp.lines()
+        .map(|line| {
+            let first = line.chars().filter_map(|n| n.to_digit(10)).next().unwrap();
+            let last = line
+                .chars()
+                .rev()
+                .filter_map(|n| n.to_digit(10))
+                .next()
+                .unwrap();
+            (first * 10 + last) as usize
+        })
+        .sum()
 }
 
-fn part2(inp: &str) -> usize {
-    inp.lines().map(|mut line| {
-        let mut first = None;
-        let mut last = 0;
-        let mut got = |n| {
-            first.get_or_insert(n);
-            last = n;
-        };
+pub fn part2(inp: &str) -> usize {
+    inp.lines()
+        .map(|mut line| {
+            let mut first = None;
+            let mut last = 0;
+            let mut got = |n| {
+                first.get_or_insert(n);
+                last = n;
+            };
 
-        while !line.is_empty() {
-            if let Some(d) = line.chars().next().unwrap().to_digit(10) {
-                got(d as usize)
-            } else {
-                for (i, num) in NUMS.iter().enumerate() {
-                    if line.starts_with(num) {
-                        got(i+1)
+            while !line.is_empty() {
+                if let Some(d) = line.chars().next().unwrap().to_digit(10) {
+                    got(d as usize)
+                } else {
+                    for (i, num) in NUMS.iter().enumerate() {
+                        if line.starts_with(num) {
+                            got(i + 1)
+                        }
                     }
                 }
+                line = &line[1..];
             }
-            line = &line[1..];
-        }
 
-        first.unwrap() * 10 + last
-    }).sum()
+            first.unwrap() * 10 + last
+        })
+        .sum()
 }
 
-const NUMS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const NUMS: [&str; 9] = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+];
 
 #[cfg(test)]
 mod tests {

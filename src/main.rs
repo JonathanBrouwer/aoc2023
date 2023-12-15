@@ -1,9 +1,11 @@
 #![allow(dead_code)]
 
+mod day01;
+mod day02;
 #[allow(unused_variables)]
 mod template;
-mod day01;
 
 fn main() {
-
+    println!("{}",
+    day02::part1(include_str!("./day02/input")) );
 }
