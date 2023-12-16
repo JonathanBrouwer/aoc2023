@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use num::integer::sqrt;
+use num::integer::Roots;
 
 fn part1(inp: &str) -> usize {
     let (times, distances)= inp.lines().map(|line| line.split_once(':').unwrap().1.split_whitespace().map(|n| n.parse().unwrap())).collect_tuple().unwrap();
@@ -14,14 +14,10 @@ fn part2(inp: &str) -> usize {
 }
 
 fn calc(time: usize, record: usize) -> usize {
-    let discriminant = time * time - 4 * record;
-    if discriminant >= 0 {
-        let lhs_bound = (time as f64 - (discriminant as f64).sqrt()) / 2.;
-        let rhs_bound = (time as f64 + (discriminant as f64).sqrt()) / 2.;
-        (rhs_bound - 1.).ceil() as usize + 1 - (lhs_bound + 1.).floor() as usize
-    } else {
-        0
-    }
+    let discriminant = (time * time - 4 * record).sqrt() as f64;
+    let lhs_bound = (time as f64 - discriminant) / 2.;
+    let rhs_bound = (time as f64 + discriminant) / 2.;
+    (rhs_bound - 1.).ceil() as usize + 1 - (lhs_bound + 1.).floor() as usize
 }
 
 #[cfg(test)]

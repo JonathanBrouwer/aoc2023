@@ -52,7 +52,7 @@ fn parse_input(inp: &str) -> (Vec<usize>, Vec<Vec<(Range<usize>, Range<usize>)>>
 
     let blocks = blocks
         .map(|block| {
-            let mut lines = block.lines().skip(1);
+            let lines = block.lines().skip(1);
 
             lines
                 .map(|line| {
